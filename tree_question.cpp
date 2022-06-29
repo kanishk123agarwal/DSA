@@ -293,5 +293,3 @@ Node *buildTree(int in[], int post[], int n) {
     Node* ans=solve(in,post,postorderIndex,0,n-1,n,nodeIndex);
     return ans;
 }
-
-fgg  https://github.com/kanishk123agarwal/DSA
