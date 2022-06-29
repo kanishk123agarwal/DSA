@@ -199,3 +199,97 @@ class MaxSumNA{
         return max(ans.first,ans.second);
     }
 };
+
+// INORDER AND PREORDER MAKE A BINARY TREE
+class InPreTree{
+    public:
+    
+ https://practice.geeksforgeeks.org/pr...
+    // by this we do work in the o(nlogn) time complexity
+    void createmapping(int in[],map<int,int> &nodeIndex,int n){
+        for(int i=0;i<n;i++){
+            nodeIndex[in[i]] = i;
+        }
+    }
+    
+    Node* solve(int in[],int pre[],int &index,int inorderStart,int inorderEnd,int n,map<int,int> &nodeIndex){
+
+        // we check base case
+        // if index is go out of the size so return null and inorderS go so we do same
+        if((index>n) || (inorderStart > inorderEnd)){
+            return NULL;
+        }
+        
+        // we store the element of pre starting and so on element
+        int element=pre[index++];
+        // we create a root node
+        Node* root=new Node(element);
+        // we divide the inorder in two parts so we can find the pos of preorder elemetn in the inorder array
+        int pos=nodeIndex[element];
+        
+        // recursive calls
+
+        // here inorder is divided in to two parts by the help of pos  
+        root->left=solve(in,pre,index,inorderStart,pos-1,n,nodeIndex);
+        root->right=solve(in,pre,index,pos+1,inorderEnd,n,nodeIndex);
+        
+        return root;
+    }
+    
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        int preorderIndex=0;
+        map<int,int> nodeIndex;
+        createmapping(in,nodeIndex,n);
+        Node* ans=solve(in,pre,preorderIndex,0,n-1,n,nodeIndex);
+        return ans;
+    }
+};
+
+
+
+// INORDER AND POSTORDER MAKE A BINARY TREE
+
+// this is similiar to the inorder and preorder question but simple 2 cache here 
+// 1) first is we start the index from the last in the postorder index 
+// 2) second we do recursive calls from right to left because we strt the index from the last 
+void createmapping(int in[],map<int,int> &nodeIndex,int n){
+    for(int i=0;i<n;i++){
+        nodeIndex[in[i]] = i;
+    }
+}
+    
+Node* solve(int in[],int post[],int &index,int inorderStart,int inorderEnd,int n,map<int,int> &nodeIndex){
+    if((index < 0) || (inorderStart > inorderEnd)){
+            return NULL;
+    }
+        
+    int element=post[index--];
+    Node* root=new Node(element);
+    int pos=nodeIndex[element];
+        
+   // recursive calls
+   
+//   simple catch here bcz we start the the index from left side so first cover all the right eleement
+
+    // 2nd case apply here
+    root->right=solve(in,post,index,pos+1,inorderEnd,n,nodeIndex);
+    root->left=solve(in,post,index,inorderStart,pos-1,n,nodeIndex);
+    
+        
+        return root;
+    }
+
+Node *buildTree(int in[], int post[], int n) {
+    // Your code here
+    
+
+    // 1st case apply here 
+
+    
+    int postorderIndex=n-1;
+    map<int,int> nodeIndex;
+    createmapping(in,nodeIndex,n);
+    Node* ans=solve(in,post,postorderIndex,0,n-1,n,nodeIndex);
+    return ans;
+}
