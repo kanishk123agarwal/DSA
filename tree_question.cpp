@@ -286,10 +286,12 @@ Node *buildTree(int in[], int post[], int n) {
 
     // 1st case apply here 
 
-    
+
     int postorderIndex=n-1;
     map<int,int> nodeIndex;
     createmapping(in,nodeIndex,n);
     Node* ans=solve(in,post,postorderIndex,0,n-1,n,nodeIndex);
     return ans;
 }
+
+fgg
