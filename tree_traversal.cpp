@@ -4,6 +4,10 @@
 #include<queue>
 using namespace std;
 
+ZigZag Traversal: https://practice.geeksforgeeks.org/pr...
+- Boundary Traversal:https://practice.geeksforgeeks.org/pr...
+- Vertical Order Traversal:https://practice.geeksforgeeks.org/pr...
+
 //Boundary traversal
 class BoundryTr {
 
