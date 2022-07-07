@@ -1,0 +1,204 @@
+// Kth Smallest element: 
+https://practice.geeksforgeeks.org/pr...
+
+class KSmallest{
+    public:
+    // arr : given array
+    // l : starting index of the array i.e 0
+    // r : ending index of the array i.e size-1
+    // k : find kth smallest element and return using this function
+    int kthSmallest(int arr[], int l, int r, int k) {
+        //code here
+        priority_queue<int> pq;
+        // step 1 make a heap 
+        for(int i=0;i<k;i++){
+            pq.push(arr[i]);
+        }
+        
+        // step 2 for rest part of heap
+        for(int i=k;i<=r;i++){
+            if(arr[i]<pq.top()){
+                pq.pop();
+                pq.push(arr[i]);
+            }
+        }
+        
+        // step 3 ans = pq.top();
+        int ans=pq.top();
+        return ans;
+    }
+};
+
+// Merge 2 Heaps:
+https://practice.geeksforgeeks.org/pr...
+
+class Mergeheap{
+    void heapify(vector<int> &ans,int size,int i){
+        int largest=i;
+        int left=2*i+1;
+        int right=2*i+2;
+        if(left<size && ans[largest]<ans[left]){
+            largest=left;
+        }
+        if(right<size && ans[largest]<ans[right]){
+            largest=right;
+        }
+        if(largest!=i){
+            swap(ans[largest],ans[i]);
+            heapify(ans,size,largest);
+        }
+    }
+    public:
+    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+        // your code here
+        // merge two array into one
+        vector<int>ans;
+        for(auto i:a){
+            ans.push_back(i);
+        }
+        for(auto i:b){
+            ans.push_back(i);
+        }
+        
+        // create a heap 
+        int size=ans.size();
+        for(int i=size/2-1;i>=0;i--){
+            // check for correct position of heap
+            heapify(ans,size,i);
+        }
+        return ans;
+    }
+};
+
+
+// Is Tree a Heap:
+ https://practice.geeksforgeeks.org/pr...
+
+class IsHeap {
+  public:
+
+//   here we have to check the two thing that we can say the tree is a heap
+// 1) complete binary tree(CBT)
+// 2) heapify order
+//   -maxheap
+//   -minheap
+  int nodeCount(struct Node* root){
+      if(root==NULL){
+          return 0;
+      }
+      int ans=1+nodeCount(root->left)+nodeCount(root->right);
+      return ans;
+  }
+  bool isCBT(struct Node* root,int index,int cnt){
+      if(root==NULL){
+          return true;
+      }
+    //   if it goes to the out of bound 
+      if(index > cnt){
+          return false;
+      }
+    //   for 0th index
+      else{
+          bool left= isCBT(root->left,2*index+1,cnt);
+          bool right=isCBT(root->right,2*index+2,cnt);
+          
+          return (left && right);
+      }
+  }
+  
+  bool isMaxOrder(struct Node* root){
+    // for leaf node 
+      if(root->left==NULL && root->right==NULL){
+          return true;
+      }
+    //   if only one child
+      if(root->right==NULL){
+          return root->data > root->left->data;
+      }
+    //   for two child
+      else{
+          
+          bool left=isMaxOrder(root->left);
+          bool right=isMaxOrder(root->right);
+          return (left && right && root->data > root->left->data &&
+          root->data > root->right->data);
+      }
+  }
+  
+    bool isHeap(struct Node* tree) {
+        // code here
+        int index=0;
+        // calculate the node in a tree
+        int totalCount=nodeCount(tree);
+        if(isCBT(tree,index,totalCount) && isMaxOrder(tree)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
+
+// Min Cost of "n" ropes:
+https://practice.geeksforgeeks.org/pr...
+
+class MinCost
+{
+    public:
+    //Function to return the minimum cost of connecting the ropes.
+    long long minCost(long long arr[], long long n) {
+        // Your code here
+        
+        
+        // S.C O(N)
+        // T.C O(NLOGN)
+        // create a min heap by using a stl priority queue
+        priority_queue<long long,vector<long long>,greater<long long>> pq;
+        for(int i=0;i<n;i++){
+            pq.push(arr[i]);
+        }
+        long long cost=0;
+        while(pq.size() > 1){
+            long long a=pq.top();
+            pq.pop();
+            long long b=pq.top();
+            pq.pop();
+            
+            long long sum=a+b;
+            cost=cost+sum;
+            pq.push(sum);
+        }
+        return cost;
+    }
+};
+
+
+// BST To MAX Heap 
+https://practice.geeksforgeeks.org/problems/bst-to-max-heap/1/#
+class BST_to_MaxHeap{
+  public:
+  void inorderTr(Node* root,vector<int> &arr){
+      if(root==NULL){
+          return;
+      }
+      inorderTr(root->left,arr);
+      arr.push_back(root->data);
+      inorderTr(root->right,arr);
+  }
+  void BSTToMaxHeap(Node* root,vector<int> &arr,int *i){
+      if(root==NULL){
+          return;
+      }
+      BSTToMaxHeap(root->left,arr,i);
+      BSTToMaxHeap(root->right,arr,i);
+      root->data=arr[++ *i];
+  }
+    void convertToMaxHeapUtil(Node* root)
+    {
+        // Your code goes here
+        vector<int>arr;
+        inorderTr(root,arr);
+        int i=-1;
+        BSTToMaxHeap(root,arr,&i);
+    }    
+};
