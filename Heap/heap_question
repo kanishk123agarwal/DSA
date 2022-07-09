@@ -202,3 +202,43 @@ class BST_to_MaxHeap{
         BSTToMaxHeap(root,arr,&i);
     }    
 };
+
+// Relative Ranked 
+https://leetcode.com/problems/relative-ranks/
+class Solution {
+    
+//     T.c o(logn)
+    // S.C O(N)
+public:
+    vector<string> findRelativeRanks(vector<int>& score) {
+        // when we have to save the indices along with the value in the heap so we use like this  
+        priority_queue<pair<int,int> > maxH;
+        for(int i=0;i<score.size();i++){
+            maxH.push({score[i],i});
+        }
+        
+       int flag=1;
+        vector<string> ans(score.size());
+        while(!maxH.empty()){
+
+            // we use the max heap bcz we kknow that the largest element out first then come out second larg.
+            auto p=maxH.top();
+            if(flag == 1){
+                ans[p.second]= "Gold Medal";
+            }
+            
+            else if(flag == 2){
+                ans[p.second] = "Silver Medal";
+            }
+            else if(flag == 3){
+                ans[p.second] = "Bronze Medal";
+            }
+            else{
+                ans[p.second] = to_string(flag);
+            }
+            flag++;
+            maxH.pop();
+        }
+        return ans;
+    }
+};
