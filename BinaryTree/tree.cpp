@@ -20,6 +20,8 @@ public:
 
 node *BuildTree(node *root)
 {
+
+    // inserting a node 
     cout << "Enter the data" << endl;
     int data;
     cin >> data;
