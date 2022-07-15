@@ -1,6 +1,9 @@
-
+#include<iostream>
+using namespace std;
 
 // creation
+
+https://www.codingninjas.com/codestudio/problems/implement-a-phone-directory_1062666?topList=love-babbar-dsa-sheet-problems&leftPanelTab=0&utm_source=youtube&utm_medium=affiliate&utm_campaign=Lovebabbar
 class TrieNode{
     public:
     char data;
@@ -99,3 +102,80 @@ vector<vector<string>> phoneDirectory(vector<string>&contactList, string &queryS
     }
     return t->getSuggestion(queryStr);
 }
+
+// medium question
+
+https://www.codingninjas.com/codestudio/problems/implement-trie_1387095
+class TrieNode{
+    public:
+    TrieNode* children[26];
+    int countPrefix,countWord;
+    TrieNode(){
+        for(int i=0;i<26;i++){
+            children[i]=NULL;          
+        }
+        countPrefix=0;
+        countWord=0;
+    }
+};
+class Trie{
+
+    public:
+    TrieNode* root;
+    Trie(){
+        // Write your code here.
+        root=new TrieNode();
+    }
+
+    void insert(string &word){
+        // Write your code here.
+        TrieNode* curr=root;
+        // insertion through iteration
+        for(int i=0;i<word.length();i++){
+            if(curr->children[word[i]-'a'] == NULL)
+                curr->children[word[i]-'a']=new TrieNode();
+              curr=curr->children[word[i]-'a'];
+            //  track of count prefix during insertion  
+              curr->countPrefix++;
+        }
+        // similiar track count word during insertion 
+        curr->countWord+=1;
+    }
+
+    int countWordsEqualTo(string &word){
+        // Write your code here.
+        TrieNode* curr= root;
+        // here we traverse the whole string in the end we find the count word that show 
+        // how many string come to the similiar name
+        for(int i=0;i<word.length();i++){
+            if(curr->children[word[i]-'a'] == NULL)
+                return 0;
+            curr=curr->children[word[i]-'a'];
+        }
+        return curr->countWord;
+    }
+
+    int countWordsStartingWith(string &word){
+        // Write your code here.
+        TrieNode* curr=root;
+        // here we traverse when string is not over 
+        // when we track the every letter come by the help of countPrefix that why we find that how many time
+        // the prefix has come  
+        for(int i=0;i<word.length();i++){
+            if(curr->children[word[i]-'a'] == NULL)
+                return 0;
+            curr=curr->children[word[i]-'a'];
+        }
+        return curr->countPrefix;
+    }
+
+    void erase(string &word){
+        // Write your code here.
+        TrieNode *curr=root;
+        for(int i=0;i<word.length();i++){
+            curr=curr->children[word[i]-'a'];
+            curr->countPrefix--;
+        }
+        curr->countWord--;
+    }
+};
