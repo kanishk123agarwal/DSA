@@ -12,13 +12,17 @@
 // 1) DFS
 // 2) BFS
 
-
+// QUES 4 :- Shortest path in an unweighted graph
+// BFS 
 
 
 
 // check the cycle in undirected graph using bfs and dfs
 https://www.codingninjas.com/codestudio/problems/cycle-detection-in-undirected-graph_1062670?topList=love-babbar-dsa-sheet-problems&leftPanelTab=1&utm_source=youtube&utm_medium=affiliate&utm_campaign=Lovebabbar
-
+#include<stack>
+#include<vector>
+#include<limits.h>
+#include<iostream>
 #include<queue>
 #include<unordered_map>
 #include<list>
@@ -111,15 +115,7 @@ https://www.codingninjas.com/codestudio/problems/detect-cycle-in-a-directed-grap
 
 
 Detect Cycle In A Directed Graph
-Difficulty: MEDIUM
-Contributed By
-Priyaraj Sharma
-|
-Level 1
-Avg. time to solve
-30 min
-Success Rate
-75%
+
 Problem Statement
 You are given a directed graph having ‘N’ nodes. A matrix ‘EDGES’ of size M x 2 is given which represents the ‘M’ edges such that there is an edge directed from node EDGES[i][0] to node EDGES[i][1].
 Find whether the graph contains a cycle or not, return true if a cycle is present in the given directed graph else return false.
@@ -276,6 +272,56 @@ int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
     }
 44
     return false;
+
+
+
+    //     using BFS
+//     create adjacent list 
+    unordered_map<int,list<int> > adj;
+    for(int i=0;i<edges.size();i++){
+        int u=edges[i].first-1;
+        int v=edges[i].second-1;
+        
+        adj[u].push_back(v);
+    }
+    
+    vector<int> indegree(n);
+    for(auto i: adj){
+        for(auto j: i.second)
+        {
+            indegree[j]++;
+        }
+    }
+    
+//     0 indegree waaloko push krna hai
+    queue<int> q;
+    int cnt=0;
+    for(int i=0;i<n;i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    
+//     do bfs
+    while(!q.empty()){
+        int front=q.front();
+        q.pop();
+        
+//         inc cnt
+        cnt++;
+        
+//         update the indegree of neighbour
+        for(auto neighbour: adj[front]){
+            indegree[neighbour]--;
+            if(indegree[neighbour] == 0){
+                q.push(neighbour);
+            }
+        }
+    }
+    if(cnt==n){
+        return  false;
+    }
+    return true;
 45
 }
 
@@ -532,5 +578,205 @@ vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)  {
 85
     return ans;
 86
+}
+
+// Shortest path in an unweighted graph
+// using bfs
+
+#include<unordered_map>
+#include<list>
+#include<queue>
+
+// T.C O(N+E)
+// S.C O(N+E)
+
+vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , int t){
+	
+	// create adj list
+    unordered_map<int,list<int> > adj;
+    for(int i=0;i<edges.size();i++){
+        int u=edges[i].first;
+        int v=edges[i].second;
+        
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+//     do bfs
+    unordered_map<int,bool> visited;
+    unordered_map<int,int> parent;
+    queue<int> q;
+    q.push(s);
+    visited[s]=true;
+    parent[s]=-1;
+    while(!q.empty()){
+        int front=q.front();
+        q.pop();
+        for(auto neighbour: adj[front]){
+            if(!visited[neighbour]){
+                visited[neighbour]=true;
+                parent[neighbour]= front;
+                q.push(neighbour);
+            }
+        }
+    }
+    
+//     prepare sorthest path
+    vector<int> ans;
+    int currentNode=t;
+    ans.push_back(t);
+    while(currentNode != s){
+        currentNode=parent[currentNode];
+        ans.push_back(currentNode);
+    }
+    reverse(ans.begin() , ans.end());
+	return ans;
+}
+
+// DIRECTED PATH IN ACYCLIC GRAPH
+// using namespace std;
+class Graph{
+    public:
+    unordered_map<int,list<pair<int,int>> > adj;
+    void addEdge(int u,int v,int weight){
+       pair<int,int> p=make_pair(v,weight);
+       adj[u].push_back(p);
+    }
+    void printAdj(){
+        for(auto i:adj){
+            cout<<i.first<<" -> ";
+            for(auto j:i.second){
+               cout<<"("<<j.first<<","<<j.second<<"), ";
+            }cout<<endl;
+        }
+    }
+
+    // first find topological sort
+    void dfs(int node,unordered_map<int,bool> &vis,stack<int> &topo){
+        vis[node]=true;
+        for(auto neighbour:adj[node]){
+            if(!vis[neighbour]){
+                dfs(neighbour.first,vis,topo);
+            }
+        }
+        topo.push(node);
+    }
+
+    void getShortestPath(int src,vector<int> &dis,stack<int> &topo){
+        dis[src]=0;
+        while(!topo.empty()){
+            int top=topo.top();
+            topo.pop();
+            if(dis[top] != INT_MAX){
+                for(auto i:adj[top]){
+                    if(dis[top] + i.second <dis[i.first]){
+                        dis[i.first]=dis[top]+i.second;
+                    }
+                }
+            }
+        }
+    }
+};
+
+int main(){
+    Graph g;
+    g.addEdge(0,1,5);
+    g.addEdge(1,2,3);
+    g.addEdge(1,2,2);
+    g.addEdge(1,3,6);
+    g.addEdge(2,3,7);
+    g.addEdge(2,4,4);
+    g.addEdge(2,5,2);
+    g.addEdge(3,4,-1);
+    g.addEdge(4,5,-2);
+    int n=6;
+    unordered_map<int,bool> visited;
+    stack<int> s;
+    for(int i=0;i<n;i++){
+        if(!visited[i]){
+            g.dfs(i,visited,s);
+        }
+    }
+    int src=1;
+    vector<int> dis(n);
+    for(int i=0;i<n;i++){
+        dis[i]=INT_MAX;
+
+    }
+
+  g.getShortestPath(src,dis,s);
+  cout<< "answer is "<<endl;
+  for(int i=0;i<dis.size();i++){
+    cout<<dis[i]<<" ";
+
+  }cout<<endl;
+  return 0;
+}
+
+
+
+// DIJSTRA ALGORITHMS
+https://www.codingninjas.com/codestudio/problems/dijkstra-s-shortest-path_920469?leftPanelTab=0&utm_source=youtube&utm_medium=affiliate&utm_campaign=Lovebabbar
+
+
+#include<set>
+#include<unordered_map>
+#include<list>
+
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+    // Write your code here.
+    
+//     create adjacent list
+    unordered_map<int,list<pair<int,int> > > adj;
+    for(int i=0;i<edges;i++){
+        int u = vec[i][0];
+        int v = vec[i][1];
+        int w = vec[i][2];
+        
+        adj[u].push_back(make_pair(v,w));
+        adj[v].push_back(make_pair(u,w));
+    }
+    
+//     disatnce array
+    vector<int> dis(vertices);
+    
+//     initialise distance array to maximum
+    for(int i=0;i<vertices;i++){
+        dis[i] = INT_MAX;
+    }
+    set<pair<int,int> > st;
+    dis[source] = 0;
+    
+//     initialise the set
+    st.insert(make_pair(0,source));
+    
+    while(!st.empty()){
+        
+//         fetch topNode
+        auto top = *(st.begin());
+        
+        int distance=top.first;
+        int topNode = top.second;
+        
+//         remove top node
+        st.erase(st.begin());
+        
+//         traverse all neighbour
+        for(auto neighbour : adj[topNode]){
+            if(distance + neighbour.second<dis[neighbour.first])             {
+                auto record = st.find(make_pair(dis[neighbour.first],neighbour.first));
+                if(record != st.end()){
+                    st.erase(record);
+                }
+                
+//                 distance update
+                dis[neighbour.first] = distance + neighbour.second;
+                
+//                 update the set
+                st.insert(make_pair(dis[neighbour.first],neighbour.first));
+            }
+        }
+    }
+    return dis;
 }
 
