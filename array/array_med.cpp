@@ -130,3 +130,76 @@ class Solution{
         return water;
     }
 };
+
+// celebrity problem
+https://practice.geeksforgeeks.org/problems/the-celebrity-problem/1
+// USING STACK T.C O(N) S.C O(N);
+// second approach in two pointer approach
+class Solution 
+{
+    public:
+    // knows function
+    bool know(vector<vector<int> >& M,int a,int b){
+        if(M[a][b] == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    //Function to find if there is a celebrity in the party or not.
+    int celebrity(vector<vector<int> >& M, int n) 
+    {
+        stack<int>s;
+        // push all the element into the stack
+        for(int i=0;i<n;i++){
+            s.push(i);
+        }
+        
+        // step 2 run till stack can have only one candidate;
+        while(s.size() > 1){
+            int a=s.top();
+            s.pop();
+            int b=s.top();
+            s.pop();
+            if(know(M,a,b)){
+                s.push(b);
+            }
+            else{
+                s.push(a);
+            }
+        }
+        int candidate = s.top();
+        s.pop();
+        
+        // step 3 verify
+        bool rowCheck=false;
+        int zeroCount=0;
+        for(int i=0;i<n;i++){
+            if(M[candidate][i] == 0){
+                zeroCount++;
+            }
+        }
+        if(zeroCount==n){
+            rowCheck=true;
+        }
+        
+        // for column
+        bool colCheck=false;
+        int oneCount=0;
+        for(int i=0;i<n;i++){
+            if(M[i][candidate] == 1){
+                oneCount++;
+            }
+        }
+        // except diagonally
+        if(oneCount==n-1){
+            colCheck=true;
+        }
+        if(rowCheck==true && colCheck==true){
+            return candidate;
+        }
+        return -1;
+    }
+};--
