@@ -1,0 +1,5 @@
+// STL have four things
+// 1) ALGORITHMS
+// 2) CONTAINERS
+// 3)ITERATIONS
+// 4)FUNCTIONS
