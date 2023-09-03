@@ -63,9 +63,139 @@ int main(){
     // }
 
     // inverted numeric pattern
-    for(int i=0;i<5;i++){
-        for(int j=0;j<5-i;j++){
-            cout<<j+1<<" ";
+    // for(int i=0;i<5;i++){
+    //     for(int j=0;j<5-i;j++){
+    //         cout<<j+1<<" ";
+    //     }
+    //     cout<<endl;
+    // }
+
+    // full pyramid
+    // for(int i=0;i<5;i++){
+    //     // for space 
+    //     for(int j=0;j<5-i-1;j++){
+    //         cout<<" ";
+    //     }
+    //     // for star
+    //     for(int j=0;j<i+1;j++){
+    //         cout<<"* ";
+    //     }
+    //     cout<<endl;
+    // }
+
+    // invert full pyramid
+    // for(int i=0;i<4;i++){
+    //     // for space
+    //     for(int j=0;j<i;j++){
+    //         cout<<" ";
+    //     }
+    //     // for star
+    //     for(int j=0;j<4-i;j++){
+    //         cout<<"* ";
+    //     }
+    //     cout<<endl;
+    // }
+
+    // diamond -- combination of full pyramid and inverted pyramid
+    // for(int i=0;i<4;i++){
+    //     // for space 
+    //     for(int j=0;j<4-i-1;j++){
+    //         cout<<" ";
+    //     }
+    //     // for star
+    //     for(int j=0;j<i+1;j++){
+    //         cout<<"* ";
+    //     }
+    //     cout<<endl;
+    // }
+    // for(int i=0;i<4;i++){
+    //     // for space
+    //     for(int j=0;j<i;j++){
+    //         cout<<" ";
+    //     }
+    //     // for star
+    //     for(int j=0;j<4-i;j++){
+    //         cout<<"* ";
+    //     }
+    //     cout<<endl;
+    // }
+
+    // hollow pyramid
+    // for(int i=0;i<4;i++){
+    //     // for space 
+    //     for(int j=0;j<4-i-1;j++){
+    //         cout<<" ";
+    //     }
+    //     // for star
+    //     for(int j=0;j<i+1;j++){
+    //         if(j==0 || j==i+1-1){
+    //             cout<<"* ";
+    //         }
+    //         else{
+    //             cout<<"  ";
+    //         }
+    //     }
+    //     cout<<endl;
+    // }
+
+    // inverted hollow pyramid
+    // for(int i=0;i<4;i++){
+    //     // for space
+    //     for(int j=0;j<i;j++){
+    //         cout<<" ";
+    //     }
+    //     // for star
+    //     for(int j=0;j<4-i;j++){
+    //         if(j==0 || j==4-i-1){
+    //             cout<<"* ";
+    //         }
+    //         else{
+    //             cout<<"  ";
+    //         }
+            
+    //     }
+    //     cout<<endl;
+    // }
+
+    // hollow diamond
+//    * 
+//   * *
+//  *   *
+// *     *
+// *     *
+//  *   *
+//   * *
+//    *
+    for(int i=0;i<4;i++){
+        // for space 
+        for(int j=0;j<4-i-1;j++){
+            cout<<" ";
+        }
+        // for star
+        for(int j=0;j<i+1;j++){
+            if(j==0 || j==i+1-1){
+                cout<<"* ";
+            }
+            else{
+                cout<<"  ";
+            }
+        }
+        cout<<endl;
+    }
+    for(int i=0;i<4;i++){
+        // for space
+        for(int j=0;j<i;j++){
+            cout<<" ";
+        }
+        // for star
+        for(int j=0;j<4-i;j++){
+            if(j==0 || j==4-i-1){
+                cout<<"* ";
+            }
+            else{
+                cout<<"  ";
+            }
+            
         }
         cout<<endl;
     }
