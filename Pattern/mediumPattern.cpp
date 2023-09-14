@@ -304,4 +304,42 @@ int main(){
     //     cout<<endl;
     // }
 
+
+    // new pattern
+// 1234554321
+// 1234**4321
+// 123****321
+// 12******21
+// 1********1
+    // for(int i=0;i<5;i++){
+    //     int k=1;
+    //     for(int j=0;j<5;j++){
+    //         if(j<5-i){
+    //            cout<<k;
+    //            k++;
+    //         }
+    //         else{
+    //             cout<<"*";
+    //         }
+    //     }
+    //     int count=5-i;
+    //     for(int j=0;j<5;j++){
+    //         if(j<i)cout<<"*";
+    //         else cout<<count--;
+    //     }
+    //     cout<<endl;
+    // }
+
+    // hollow half pyramid
+    for(int i=0;i<9;i++){
+        for(int j=0;j<2*i+1;j++){
+            if(i==0 || j==0 || i==9-1 || j==2*i){
+                cout<<"*";
+            }
+            else{
+                cout<<" ";
+            }
+        }
+        cout<<endl;
+    }
 }
