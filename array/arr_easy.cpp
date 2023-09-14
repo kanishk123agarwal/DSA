@@ -43,4 +43,61 @@ class Solution{
         return (result);
         
     }
+    
+    // sort colors/ dutch national flag
+    // two pointer approach - o(n) -- T.c
+    https://leetcode.com/problems/sort-colors/
+    
+    void sortColors(vector<int>& nums) {
+        int low=0,high=nums.size()-1;
+        int index=0;
+        while(index<=high){
+            if(nums[index]==0){
+                swap(nums[index],nums[low]);
+                low++;
+                index++;
+            }
+            else if(nums[index]==2){
+                swap(nums[index],nums[high]);
+                // catch 
+                // indexx plus plus nhi krna yha pr - bcz we sorted the left side already but right side is not sorted so we again check 
+                // index value
+                // index++;  XXX   wrong   XXX
+                high--;
+            }
+            else{
+                index++;
+            }
+        }
+    }
+
+
+    // find duplicate element in the array
+    https://leetcode.com/problems/find-the-duplicate-number/description/
+    class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        // visitng technique in this we change the array so this is not good
+        // int ans=-1;
+        // for(int i=0;i<nums.size();i++){
+        //     int index=abs(nums[i]);
+
+        //     // already visit
+        //     if(nums[index]<0)return index;
+
+        //     // first visit
+        //     nums[index]*= -1;
+        // }
+        // return ans;
+
+        // second approach
+        // positioning method
+        while(nums[0] != nums[nums[0]]){
+            swap(nums[0],nums[nums[0]]);
+        }
+        return nums[0];
+    }
+    
+};
+
 };
