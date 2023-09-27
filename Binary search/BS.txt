@@ -1,0 +1,16 @@
+binary search is based on three types of problem 
+1) general binary search question 
+2) predicate and search space problem 
+3) index based problem it is less but it's also very important -- it is based on because index is in sorted manner so it is also good 
+
+general question on binary search is based on mid number or general approach 
+EX nearly sorted array 
+pivot index
+
+
+predicate and search space basically lie on the search space 
+find sqrt(x);
+divident/divisor
+
+index based basically 
+oddoccuring of element

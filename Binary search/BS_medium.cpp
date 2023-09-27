@@ -85,6 +85,100 @@ public:
     }
 };
 
+// sqrt of x and find in precision value 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int mySqrt(int n)
+{
+    int s = 0, e = n;
+    int ans = 0;
+    while (s <= e)
+    {
+        int mid = (e - s) / 2 + s;
+
+        // predicate fn
+        if (mid * mid <= n)
+        {
+            ans = mid;
+            s = mid + 1; // go right
+        }
+        else
+            e = mid - 1; // go left
+    }
+    return ans;
+}
+
+double myPrecisionSqrt(int n)
+{
+    double sqrt = mySqrt(n);
+    int precision = 10;
+    double step = 0.1;
+    for (int i = 0; i < precision; ++i)
+    {
+        double j = sqrt;
+        while (j * j <= n)
+        {
+            sqrt = j;
+            j += step;
+        }
+        step /= 10;
+    }
+    return sqrt;
+}
+
+// divide the number and find out the quotient in precision terms
+int divide(int dividend, int divisor)
+{
+    int s = 0, e = dividend;
+    int ans = 0;
+    while (s <= e)
+    {
+        int mid = (e - s) / 2 + s;
+        // check if mid is the answer, treat mid as Quotient
+        // Quotient * Divisor + Reminder = Dividend,
+        // Predicate: Quotient * Divisor <= Dividend
+        if (mid * divisor <= dividend)
+        {
+            ans = mid;
+            // go right for more precise answer
+            s = mid + 1;
+        }
+        else
+            e = mid - 1;
+    }
+    return ans;
+}
+
+double myPrecisionDivide(int dividend, int divisor)
+{
+    double quotient = divide(dividend, divisor);
+    int precision = 5; // to take the precision point
+    double step = 0.1;  //we increase the step by 0.1 then 0.01 then 0.001 by dividing the steps 10
+    for (int i = 0; i < precision; ++i)
+    {
+        double j = quotient;
+        while (j * divisor <= dividend) //predicate function
+        {
+            quotient = j;
+            j += step;
+        }
+        step /= 10;
+    }
+    return quotient;
+}
+
+int main()
+{
+    int n = 63;
+    // cout << mySqrt(n) << endl;
+    cout << myPrecisionSqrt(n) << endl;
+    return 0;
+}
+
+
 // 74. Search a 2D Matrix
 https://leetcode.com/problems/search-a-2d-matrix/description/
 // O(log(m * n)) time complexity.
@@ -132,7 +226,7 @@ int searchNearlySorted(int arr[],int n,int target){
     }
     return -1;
 }
-
+// index based problem 
 int findOddOccuring(int arr[],int n){
     int s=0,e=n-1;
     while(s<=e){
