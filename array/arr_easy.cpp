@@ -101,3 +101,47 @@ public:
 };
 
 };
+// Maximum average subarray1
+https://leetcode.com/problems/maximum-average-subarray-i/description/
+class Solution {
+public:
+
+    // o(n^2)
+    // double bruteForce(vector<int>& nums, int& k){
+    //     int maxSum = INT_MIN;
+    //     int i=0,j=k-1;
+    //     while(j<nums.size()){
+    //         int sum=0;
+    //         for(int y=i;y<=j;y++){
+    //             sum+=nums[y];
+    //         }
+    //         maxSum=max(maxSum,sum);
+    //         ++i , ++j;
+    //     }
+    //     double ans=maxSum/(double)k;
+    //     return ans;
+    // }
+
+    // sliding window approach
+    // o(n)
+    double slidingWindow(vector<int>& nums, int& k){
+        int i=0,j=k-1;
+        int sum=0;
+        for(int y=i;y<=j;y++){
+            sum=sum+nums[y];
+        }
+        int maxSum=sum;
+        j++;
+        while(j<nums.size()){
+            sum=sum-nums[i++];
+            sum=sum+nums[j++];
+            maxSum=max(sum,maxSum);
+        }
+        double ans=maxSum/(double)k;
+        return ans;
+    }
+    double findMaxAverage(vector<int>& nums, int k) {
+        // return bruteForce(nums,k);
+        return slidingWindow(nums,k);
+    }
+};

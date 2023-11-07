@@ -202,4 +202,34 @@ class Solution
         }
         return -1;
     }
-};--
+};
+
+// 532: k diff pairs in the array 
+https://leetcode.com/problems/k-diff-pairs-in-an-array/description/
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        // two pointer approach
+        // ek case fatega to humne uske liye "set" use krliya hai 
+        //t.c - o(nlogn) - for sorting 
+        // space complexity o(n) for storing the element in the set 
+        // it also done with binary search but it also take o(nlogn) time complexity 
+        // simple cache that we start two pointer consecutive
+        sort(nums.begin(),nums.end());
+        int i=0,j=1;
+        set<pair<int,int>> ans;
+        while(j<nums.size()){
+            int diff=nums[j]-nums[i];
+            if(diff==k){
+                ans.insert({nums[i],nums[j]});
+                i++;
+                j++;
+            }
+            else if(diff>k)i++;
+            else j++;
+            // cache
+            if(i==j)j++;
+        }
+        return ans.size();
+    }
+};
