@@ -36,3 +36,74 @@ public:
     }
 };
 }
+
+// valid palindrome 2 -- remove at most 1 element and then check this is a palindrome or not 
+https://leetcode.com/problems/valid-palindrome-ii/description/
+class Solution {
+public:
+
+    bool checkPalindrome(string s,int i,int j){
+        while(i<j){
+            if(s[i]==s[j]){
+                i++;
+                j--;
+            }
+            else return false;
+        }
+        return true;
+    }
+    bool validPalindrome(string s) {
+        int i=0,j=s.length()-1;
+        while(i<j){
+            if(s[i]==s[j]){
+                i++;
+                j--;
+            }
+            else{
+                // to mai ek element remove kr skta hu 
+                // only 1 allowed 
+
+                // is baar i ke side ka remove
+                bool left=checkPalindrome(s,i+1,j);
+
+                // is baar j ke side ka remove krenge
+                bool right=checkPalindrome(s,i,j-1);
+                return left||right;
+            }
+        }
+        return true;
+    }
+};
+
+// 2325. Decode the Message
+https://leetcode.com/problems/decode-the-message/description/
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        // create mapping
+        char start='a';
+        char mapping[280]={0};
+        // for each loop
+        for(auto ch : key){
+            if(ch != ' ' && mapping[ch] ==0){ //it's take because repeat of element is not coming that's why we give array size and give to 0 for all element
+                mapping[ch]=start;
+                start++;
+            }
+        }
+
+        // use mapping
+        string ans;
+        for(int i=0;i<message.length();i++){
+            char ch=message[i];
+            if(ch==' '){
+                ans.push_back(' ');
+            }
+            else{
+                char decodedChar=mapping[ch];
+                ans.push_back(decodedChar);
+            }
+            
+        }
+        return ans;
+    }
+};
