@@ -52,7 +52,7 @@ bool isPalindrome(LinkedListNode<int> *head) {
     
     
     
-    return true;
+    // return true;
 
 }
 
@@ -104,3 +104,88 @@ int findIntersection(Node *firstHead, Node *secondHead)
     else
       return -1;
 }
+
+// reverse a singly linked list
+https://leetcode.com/problems/reverse-linked-list/
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL){
+            return NULL;
+        }
+        if(head->next==NULL){
+            return head;
+        }
+        ListNode* prev=NULL;
+        ListNode* curr=head;
+        while(curr!=NULL){
+            ListNode* temp=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=temp;
+        }
+        head=prev;
+        return head;
+    }
+};
+
+
+// Linked list cycle
+https://leetcode.com/problems/linked-list-cycle/description/
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==NULL){
+            return false;
+        }
+        if(head->next==NULL){
+            return false;
+        }
+        // new approach through map
+        map<ListNode*,bool> table;
+        ListNode* temp=head;
+        while(temp!=NULL){
+            if(table[temp]==false){
+                table[temp]=true;
+            }
+            else{
+                return true;
+            }
+            temp=temp->next;
+        }
+        return false;
+    }
+};
+
+
+// detect cycle in ll / starting point of cycle
+https://leetcode.com/problems/linked-list-cycle-ii/
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        // if(head->next==NULL) return NULL;
+        // if(head==NULL)return NULL;
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast!=NULL){
+            fast=fast->next;
+            if(fast!=NULL){
+                fast=fast->next;
+                slow=slow->next;
+            }
+            if(fast==slow){
+                break;
+            }
+        }
+
+        if(fast==NULL)return NULL;
+
+        // yha tk humne loop pta krliya and uske baad maine ek ek aage badha dekh liya ki vo same hai yha nhi and jha pr yeh milenge whi pr starting point hoga dono ka 
+        slow=head;
+        while(slow!=fast){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        return slow;
+    }
+};
