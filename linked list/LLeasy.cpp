@@ -189,3 +189,72 @@ public:
         return slow;
     }
 };
+
+// merge two sorted ll
+https://leetcode.com/problems/merge-two-sorted-lists/description/
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* headAns=new ListNode();
+        ListNode* temp=headAns;
+
+        if(list1==NULL && list2==NULL)return list1;
+        while(list1!=NULL && list2!=NULL){
+            if(list1->val<list2->val){
+                temp->next=list1;
+                list1=list1->next;
+                temp=temp->next;
+            }
+            else{
+                temp->next=list2;
+                list2=list2->next;
+                temp=temp->next;
+            }
+        }
+        while(list1!=NULL){
+            temp->next=list1;
+            list1=list1->next;
+            temp=temp->next;
+        }
+        while(list2!=NULL){
+            temp->next=list2;
+            list2=list2->next;
+            temp=temp->next;
+        }
+
+        return headAns->next;
+    }
+};
+
+// Delete N nodes after M nodes of a linked list
+https://www.geeksforgeeks.org/problems/delete-n-nodes-after-m-nodes-of-a-linked-list
+class Solution
+{
+    public:
+    void linkdelete(struct Node  *head, int M, int N)
+    {
+        //Add code here   
+        if(!head)return;
+        Node* it=head;
+        for(int i=0;i<M-1;i++){
+            // if M nodes are null
+            // base condition
+            if(!it)return;
+            it=it->next;
+        }
+        // by chance we pahuch jaaye end tk last mai and we don't have any node to delete
+        if(!it)return;
+        
+        Node* MthNode=it;
+        it=it->next;
+        for(int i=0;i<N;i++){
+            // isme jab hum node delete kr rhe hai and node baaki hi nhi bachi to hum usko break kr dete hai kyo segmentation fault aa skta hai 
+            if(!it)break;
+            Node* temp=it->next;
+            delete it;
+            it=temp;
+        }
+        MthNode->next=it;
+        linkdelete(it,M,N);
+    }
+};
