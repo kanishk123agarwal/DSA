@@ -269,3 +269,38 @@ public:
         return head;
     }
 };
+
+https://leetcode.com/problems/insert-greatest-common-divisors-in-linked-list/description/
+// insert-greatest-common-divisors-in-linked-list
+class Solution {
+public:
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        if(head==NULL || head->next==NULL)return head;
+        ListNode* temp=head;
+        int digit=__gcd(temp->val,temp->next->val);
+        temp->next=insertGreatestCommonDivisors(temp->next);
+        // in this we insert the gcd from end to start
+        // pehle hum isme gcd end se daal rhe hai jab recursion bapas aa rha hai jab
+        ListNode* newNode=new ListNode(digit);
+        newNode->next=temp->next;
+        temp->next=newNode;
+        return temp;
+    }
+};
+
+// Removes Nodes from linked list 
+https://leetcode.com/problems/remove-nodes-from-linked-list/description/
+class Solution {
+public:
+    ListNode* removeNodes(ListNode* head) {
+        if(head==NULL || head->next==NULL)return head;
+        // this question solve through recursion we reach till the end and check that the last node is greater or not 
+        ListNode* newNode=removeNodes(head->next);
+        // if newNode is greater to all left node so it only return and if not greater so head point to the next
+        if(newNode->val>head->val){
+            return newNode;
+        }
+        head->next=newNode;
+        return head;
+    }
+};

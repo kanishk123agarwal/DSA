@@ -127,3 +127,62 @@ public:
     }
     
 };
+
+// copy list with random pointer
+https://leetcode.com/problems/copy-list-with-random-pointer/description/
+class Solution {
+public:
+
+    // Node* solve(Node* head,unordered_map<Node*,Node*>&mp){
+    //     if(head==NULL)return NULL;
+    //     // make the new list through recursion
+    //     Node* newHead=new Node(head->val);
+    //     mp[head]=newHead;
+    //     newHead->next=solve(head->next,mp);
+
+    //     // point to the random to the new list
+    //     if(head->random){
+    //         newHead->random=mp[head->random];
+    //     }
+    //     return newHead;
+    // }
+
+    
+    Node* copyRandomList(Node* head) {
+        // unordered_map<Node*,Node*>mp; //map old ptr to new ptr;
+        // return solve(head,mp);  //t(n):o(n) , s.c:o(n);
+
+
+// t.c- o(n) s.c - o(1);
+        if(!head)return NULL;
+        // step 1)clone A to A'
+        Node* it=head;
+        while(it){
+            Node* cloneNode=new Node(it->val);
+            cloneNode->next=it->next;
+            it->next=cloneNode;
+            it=it->next->next;
+        }
+
+        // step 2 Assign Random links to A' with the helper older links
+        it=head;
+        while(it){
+            Node* cloneNode=it->next;
+            cloneNode->random=it->random ? it->random->next : NULL;
+            it=it->next->next;
+        }
+
+        // step 3 Detach A' from A
+        it=head;
+        Node* ansHead=it->next;
+        while(it){
+            Node* temp=it->next;
+            it->next=it->next->next;
+            if(temp->next){
+                temp->next=temp->next->next;
+            }
+            it=it->next;
+        }
+        return ansHead;
+    }
+};
