@@ -2,7 +2,7 @@
 using namespace std;
 
 // it is a good sorting algorithm 
-
+// T.C - O(NLOGN)
 void merge(int arr[],int s,int e){
     int mid=(s+e)/2;
     int lenLeft=mid-s+1;
