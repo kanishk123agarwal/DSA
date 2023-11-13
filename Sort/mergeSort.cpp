@@ -1,6 +1,8 @@
 #include<iostream>
 using namespace std;
 
+// it is a good sorting algorithm 
+
 void merge(int arr[],int s,int e){
     int mid=(s+e)/2;
     int lenLeft=mid-s+1;
