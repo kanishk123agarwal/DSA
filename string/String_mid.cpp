@@ -183,3 +183,85 @@ public:
         return ans;
     }
 };
+
+// sort vowels in a string 
+https://leetcode.com/problems/sort-vowels-in-a-string/description/
+
+class Solution {
+public:
+bool isVowel(char ch){
+    switch(ch){
+        case 'a':
+        case 'A':
+        case 'e':
+        case 'E':
+        case 'i':
+        case 'I':
+        case 'o':
+        case 'O':
+        case 'u':
+        case 'U': 
+           return true;
+        default:
+           return false;
+    }
+    return false;
+}
+    string sortVowels(string s) {
+        // store vowels
+        vector<char> vow;
+        for(char ch:s){
+            if(isVowel(ch))vow.push_back(ch);
+        }
+
+        // sort vowels
+        sort(vow.begin(),vow.end());
+
+        // updating string
+        int j=0;
+        for(int i=0;i<s.size();i++){
+            if(isVowel(s[i])){
+                s[i]=vow[j];
+                j++;
+            }
+        }
+        return s;
+    }
+};
+
+// Unique length-3 palindromic subsequences
+https://leetcode.com/problems/unique-length-3-palindromic-subsequences/
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+        vector<int>left(26);
+        vector<int>right(26);
+        unordered_set<string>h;
+
+        // right fill 
+        for(int i=0;i<s.size();i++){
+            right[s[i]-'a']++;
+        }
+        for(int i=0;i<s.size();i++){
+            // remove element from the right and fill in the left array 
+            right[s[i]-'a']--;
+            for(int j=0;j<26;j++){
+                // if the size of both array is larger than 0 then we add element 
+                if(left[j]>0 && right[j]>0){
+                    char x='a'+j;
+                    string palindrome="";
+                    palindrome+=x;
+                    palindrome+=s[i];
+                    palindrome+=x;
+
+                    if(h.count(palindrome)==true){
+                        continue;
+                    }
+                    h.insert(palindrome);
+                }
+            }
+            left[s[i]-'a']++;
+        }
+        return h.size();
+    }
+};
