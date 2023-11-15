@@ -233,3 +233,18 @@ public:
         return ans.size();
     }
 };
+
+Maximum element after decreasing and rearranging
+https://leetcode.com/problems/maximum-element-after-decreasing-and-rearranging/description/
+class Solution {
+public:
+    int maximumElementAfterDecrementingAndRearranging(vector<int>& arr) {
+        sort(arr.begin(),arr.end());
+        int res=0,n=arr.size();
+        for(auto& el : arr){
+            el=min(el,res+1);
+            res=el;
+        }
+        return arr[n-1];
+    }
+};
