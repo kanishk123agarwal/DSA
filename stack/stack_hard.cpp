@@ -94,7 +94,7 @@ void infixToPostfix(string s) {
 		else {
 			while (!st.empty()
 				&& prec(s[i]) <= prec(st.top())) {
-				result += st.top();
+				result += st.top(); 
 				st.pop();
 			}
 			st.push(c);
