@@ -1,3 +1,112 @@
+https://leetcode.com/problems/koko-eating-bananas/ 
+875:koko eating bananas
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int start=0,end=0,mid,ans,n=piles.size();
+        // find max element in the array and starting point of binary search 
+        long long sum=0;
+        for(int i=0;i<n;i++){
+            sum+=piles[i];
+            end=max(end,piles[i]);
+        }
+        start=sum/h;
+        // piles =[312884470] h =968709470 it gives division by zero error
+        if(!start) start=1;
+        while(start<=end){
+            mid=start+(end-start)/2;
+            int total_time=0;
+            for(int i=0;i<n;i++){
+                total_time+=piles[i]/mid;
+                // if there is remainder then we have to add one more hour
+                if(piles[i]%mid) total_time++;
+            }
+            // if total time is less than or equal to h then we have to search in left side because we have also some minimum time that koko eat banana per hour
+            if(total_time<=h){
+                ans=mid;
+                end=mid-1;
+            }
+            else{
+                start=mid+1;
+            }
+        }
+        return ans;
+    }
+};
+
+// Aggressive Cows
+https://leetcode.com/problems/magnetic-force-between-two-balls/description/
+1552: Magnetic force between two balls
+class Solution {
+  public:
+    // time complexity - o(nlogn) , space complexity - o(1)
+    int aggressiveCows(vector<int> &stalls, int k) {
+
+        // Write your code here
+        // sort the array in increasing order 
+        sort(stalls.begin(),stalls.end());
+        int n=stalls.size();
+        // here we have to create range that we have to search between them of minimum distance
+        int start=1,end=stalls[n-1]-stalls[0],mid,ans;
+        // while loop take O(logn)
+        while(start<=end){
+            mid=start+(end-start)/2;
+            int pos=stalls[0],count=1;
+            // count the number of cows that can be placed
+            // for loop take O(n)
+            for(int i=1;i<n;i++){
+                if(pos+mid<=stalls[i]){
+                    pos=stalls[i];
+                    count++;
+                }
+            }
+            // if count is less than k then we have to search in left side
+            if(count<k){
+                end=mid-1;
+            }
+            // else we have to search in right side and store the possible answer
+            else{
+                start=mid+1;
+                ans=mid;
+            }
+        }
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/
+1011: Capacity To Ship Packages Within D Days
+class Solution {
+    public:
+        // t.c - o(nlogn)  s.c o(1)
+        int shipWithinDays(vector<int>& weights, int days) {
+            int size=weights.size();
+            int start=0,end=0,ans,mid;
+            for(int i=0;i<size;i++){
+                start=max(start,weights[i]);
+                end+=weights[i];
+            }
+    
+            while(start<=end){
+                mid=start+(end-start)/2;
+                int shipCap=0,day=1;
+                for(int i=0;i<size;i++){
+                    shipCap+=weights[i];
+                    if(shipCap>mid){
+                        shipCap=weights[i];
+                        day++;
+                    }
+                }
+                if(day<=days){
+                    ans=mid;
+                    end=mid-1;
+                }
+                else start=mid+1;
+            }
+            return ans;
+        }
+    };
+
 https://leetcode.com/problems/find-k-closest-elements/
 658: find k closest element 
 two method to solve 
