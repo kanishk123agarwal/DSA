@@ -45,3 +45,60 @@ public:
     }
 };
 };
+
+// Rotate matrix by 180 degree
+https://www.geeksforgeeks.org/problems/c-matrix-rotation-by-180-degree0745/1
+class Solution {
+  public:
+    void rotateMatrix(vector<vector<int>>& mat) {
+        // Code here
+        int n=mat.size();
+        
+        // col reverse
+        for(int i=0;i<n;i++){
+            int start=0,end=n-1;
+            while(start<end){
+                swap(mat[start][i],mat[end][i]);
+                start++;
+                end--;
+            }
+        }
+        
+        // row reverse
+        for(int i=0;i<n;i++){
+            int start=0,end=n-1;
+            while(start<end){
+                swap(mat[i][start],mat[i][end]);
+                start++;
+                end--;
+            }
+        }
+    }
+};
+
+https://www.geeksforgeeks.org/problems/rotate-by-90-degree-1587115621/1
+Rotate 90 degree anticlockwise 
+class Solution {
+  public:
+    // Function to rotate matrix anticlockwise by 90 degrees.
+    void rotateby90(vector<vector<int>>& mat) {
+        // code here
+        int n=mat.size();
+        
+        // transpose the matrix
+        for(int i=0;i<n;i++){
+            for(int j=i;j<n;j++){
+                swap(mat[i][j],mat[j][i]);
+            }
+        }
+        
+        // reverse column
+        for(int j=0;j<n;j++){
+            int start=0,end=n-1;
+            while(start<end){
+                swap(mat[start][j],mat[end][j]);
+                start++,end--;
+            }
+        }
+    }
+};
