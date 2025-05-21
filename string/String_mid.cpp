@@ -265,3 +265,151 @@ public:
         return h.size();
     }
 };
+
+https://www.geeksforgeeks.org/problems/case-specific-sorting-of-strings4845/1
+Case-specific sorting of strings
+class Solution {
+  public:
+    // Function to perform case-specific sorting of strings.
+    string caseSort(string str, int n) {
+        // your code here
+        int lower[26]={0};
+        int upper[26]={0};
+        
+        int i=0;
+        while(i<n){
+            if(str[i]>='a'){
+                lower[str[i]-'a']++;
+            }
+            else  upper[str[i]-'A']++;
+            i++;
+        }
+        int l=0,u=0;
+        string result=str;
+        for(int j=0;j<n;j++){
+            if(str[j]>='a'){
+                while(lower[l]== 0){ l++; }
+                result[j]='a'+l;
+                lower[l]--;
+            }
+            else{
+                while(upper[u]== 0) u++;
+                result[j]='A'+u;
+                upper[u]--;
+            }
+        }
+        return result;
+    }
+};
+
+https://leetcode.com/problems/roman-to-integer/description/
+13:Roman to integer
+class Solution {
+public:
+
+    int num(char c){
+        if(c=='I') return 1;
+        else if(c=='V') return 5;
+        else if(c=='X') return 10;
+        else if(c=='L') return 50;
+        else if(c=='C') return 100;
+        else if(c=='D') return 500;
+        else return 1000;
+    }
+    int romanToInt(string s) {
+        int sum=0;
+        int index=0;
+        while(index<s.size()-1){
+            if(num(s[index]) < num(s[index+1])) sum-=num(s[index]);
+            else sum+=num(s[index]);
+            index++;
+        }
+        sum+=num(s[index]);
+        return sum;
+    }
+};
+
+https://leetcode.com/problems/integer-to-roman/description/
+12:Integer to Roman
+class Solution {
+public:
+    string intToRoman(int num) {
+        string ones[]={"","I","II","III","IV","V","VI","VII","VIII","IX"};
+        string tens[]={"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+        string hund[]={"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+        string thous[]={"","M","MM","MMM"};
+
+        return thous[num/1000]+hund[(num%1000)/100] + tens[(num%100)/10] + ones[num%10];
+    }
+};
+
+https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
+3:Longest Substring Without Repeating Characters
+class Solution {
+public:
+// T.C-O(N) S.C-O(1)
+    int lengthOfLongestSubstring(string s) {
+        vector<bool> count(256,0);
+        int len=0;
+        int first =0,second=0;
+        // Delete character till the same element match jispai khade hai hum uske same element ko remove kr rhe hai
+        while(second<s.size()){
+            while(count[s[second]]){
+                count[s[first]]=0;
+                first++;
+            }
+            // jab hume new element milta hain to usko add krte jaate hain and find the length 
+            count[s[second]]=1;
+            len=max(len,second-first+1);
+            second++;
+        }
+        return len;
+    }
+};
+
+https://www.geeksforgeeks.org/problems/smallest-distant-window3132/1
+Smallest distinct Window
+class Solution {
+  public:
+//   T.C-O(N) S.C-O(1)
+    int findSubString(string& str) {
+        // code here
+        int first=0,second=0,len=str.size(),diff=0;
+        vector<int> count(256,0);
+        
+        // find unique element that present in the array
+        while(first<str.size()){
+            if(count[str[first]]==0) diff++;
+            count[str[first]]++;
+            first++;
+        }
+        
+        for(int i=0;i<256;i++){
+            count[i]=0;
+        }
+        first=0;
+        while(second<str.size()){
+            // diff exist krta hain jb tk
+            while(diff && second<str.size()){
+                if(count[str[second]]==0) diff--;
+                count[str[second]]++;
+                second++;
+            }
+            // we already increase the second so we don't need to (second-first+1)
+            len=min(len,second-first);
+            
+            // diff 1 ho jata hain jab
+            
+            while(diff!=1){
+                // small cache we find length first because first ko delete kr rhe hain and usko baad mai update krenge to length aur small ho skti hain
+                len=min(len,second-first);
+                count[str[first]]--;
+                
+                if(count[str[first]]==0) diff++;
+                first++;
+                
+            }
+        }
+        return len;
+    }
+};
