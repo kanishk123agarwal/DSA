@@ -34,9 +34,8 @@ public:
     }
 };
 
+https://www.geeksforgeeks.org/problems/aggressive-cows/1
 // Aggressive Cows
-https://leetcode.com/problems/magnetic-force-between-two-balls/description/
-1552: Magnetic force between two balls
 class Solution {
   public:
     // time complexity - o(nlogn) , space complexity - o(1)
@@ -65,6 +64,35 @@ class Solution {
                 end=mid-1;
             }
             // else we have to search in right side and store the possible answer
+            else{
+                start=mid+1;
+                ans=mid;
+            }
+        }
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/magnetic-force-between-two-balls/description/
+1552: Magnetic force between two balls
+class Solution {
+public:
+    int maxDistance(vector<int>& position, int m) {
+        int n=position.size();
+        sort(position.begin(),position.end());
+        int start=1,end=position[n-1]-position[0],mid,ans;
+        while(start<=end){
+            mid=start+(end-start)/2;
+            int pos=position[0],force=1;
+            for(int i=1;i<n;i++){
+                if(pos+mid<=position[i]){
+                    force++;
+                    pos=position[i];
+                }
+            }
+            if(force<m){
+                end=mid-1;
+            }
             else{
                 start=mid+1;
                 ans=mid;
