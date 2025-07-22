@@ -68,6 +68,48 @@ vector < string > searchMaze(vector < vector < int >> & arr, int n) {
         return ans;
 }
 
+class Solution {
+    // T.C-O(3^N^2) S.C-O(N^2)
+  public:
+    int row[4]={1,0,0,-1};
+    int col[4]={0,-1,1,0};
+    string dir="DLRU";
+    
+    bool valid(int i,int j,int n){
+        if(i>=0 && i<n && j>=0 && j<n){
+            return 1;
+        }
+        return 0;
+    }
+    
+    void total(vector<vector<int>>& m,int i,int j,int n,vector<vector<bool>>& visited,vector<string>& ans,string& path){
+        if(i==n-1 && j==n-1){
+            ans.push_back(path);
+            return;
+        }
+        visited[i][j]=1;
+        for(int k=0;k<4;k++){
+            if(valid(i+row[k],j+col[k],n) && m[i+row[k]][j+col[k]] && !visited[i+row[k]][j+col[k]]){
+                path.push_back(dir[k]);
+                total(m,i+row[k],j+col[k],n,visited,ans,path);
+                path.pop_back();
+            }
+        }
+        visited[i][j]=0;
+    }
+  
+    vector<string> ratInMaze(vector<vector<int>>& maze) {
+        // code here
+        int n=maze.size();
+        vector<vector<bool>> visited(n,vector<bool>(n,0));
+        string path;
+        vector<string> ans;
+        if(maze[0][0]==0 || maze[n-1][n-1]==0) return ans;
+        total(maze,0,0,n,visited,ans,path);
+        
+    }
+};
+
 // sudoku solver
 https://www.codingninjas.com/codestudio/problems/sudoku-solver_699919?leftPanelTab=0&utm_source=youtube&utm_medium=affiliate&utm_campaign=Lovebabbar
 
