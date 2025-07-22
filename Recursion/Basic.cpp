@@ -69,8 +69,26 @@ void sumEvenOdd(int start,int end,int &evenS,int &oddS){
     sumEvenOdd(start+1,end,evenS,oddS);
 }
 
+// Ques8: Subset Sum
+void subsetSum(int arr[],int index,int n,int sum){
+    if(index==n){
+        cout<<sum<<" ";
+        return;
+    }
+    subsetSum(arr,index+1,n,sum);
+    subsetSum(arr,index+1,n,sum+arr[index]);
+}
+
+// Ques9: Target Sum
+int sumTarget(int arr[],int n,int index,int target){
+    if(target==0)return 1;
+    if(index==n || target<0) return 0;
+
+    return (sumTarget(arr,n,index+1,target) || sumTarget(arr,n,index+1,target-arr[index]));
+}
+
 int main(){
-    int arr[5]={5,3,10,4,2};
+    // int arr[5]={5,3,10,4,2};
     // int sum=sumArray(arr,0,5);
     // cout<<sum<<endl;
 
@@ -88,15 +106,28 @@ int main(){
     // cout<<sum<<endl;
 
     // Ques5:
-    int max=findMax(arr,5);
-    cout<<max<<endl;
+    // int max=findMax(arr,5);
+    // cout<<max<<endl;
 
     // ques6:sum of prime no between the range
-    int sumP = sumPrime(1,20);
-    cout<<sumP<<endl;
+    // int sumP = sumPrime(1,20);
+    // cout<<sumP<<endl;
 
     // Ques7: 
-    int evenS=0,oddS=0;
-    sumEvenOdd(10,20,evenS,oddS);
-    cout<<evenS<<" "<<oddS<<endl;
+    // int evenS=0,oddS=0;
+    // sumEvenOdd(10,20,evenS,oddS);
+    // cout<<evenS<<" "<<oddS<<endl;
+
+    // Ques8: Subset Sum 
+    int arr[]={2,3,4};
+    int sum=0;
+    int n=3;
+    subsetSum(arr,0,n,sum);
+
+    // Ques9:
+    // int arr[]={3,4,5};
+    // int n=3;
+    // int target=12;
+    // int ans=sumTarget(arr,n,0,target);
+    // cout<<ans;
 }
