@@ -248,3 +248,214 @@ public:
         return arr[n-1];
     }
 };
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-daily-week2-day1/problem/smallest-positive-missing-number-1587115621
+Smallest positive missing number 
+class Solution {
+  public:
+//   solve using the concept of cycle sort
+// T.C-O(N),S.C-O(1)
+    int missingNumber(vector<int> &arr) {
+        // code here
+        int n=arr.size();
+        for(int i=0;i<n;i++){
+            // check the number is in the range or not
+            // and after the while loop we put the number of its right position 
+            while(arr[i]>=1 && arr[i]<=n && arr[i]!=arr[arr[i]-1]){
+                swap(arr[i],arr[arr[i]-1]);
+            }
+        }
+        // array start from 0 and the number range is from 1 to n so we do arr[i-1]
+        for(int i=1;i<=n;i++){
+            if(i!=arr[i-1]){
+                return i;
+            }
+        }
+        // if all number present then the smallest missing number is n+1
+        return n+1;
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-daily-week2-day2/problem/sum-of-subarrays2229
+Sum of aubarrays
+class Solution {
+  public:
+//   T.C-O(N),S.C-O(1)
+    int subarraySum(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        int result=0;
+        // here w see some scenario 
+        // 1) arr[i] = the element comes 
+        // 2) i+1    = it show the number of times that element comes in a group of subarray
+        // 3) n-i    = it show the frequency of that element 
+        for(int i=0;i<n;i++){
+            result+=(arr[i]*(i+1)*(n-i));
+        }
+        return result;
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-topic-wise-week2/problem/track-the-trail
+Local min and max occurence point 
+class Solution {
+  public:
+    vector<int> extractPoints(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        vector<int> ans;
+        
+        if(n==0) return ans;
+        
+        // insert the  first element 
+        ans.push_back(arr[0]);
+        
+        for(int i=1;i<n-1;){
+            int prev=arr[i-1];
+            int curr=arr[i];
+            
+            // take j for skip the same elementor we collapse the element 
+            int j=i;
+            while(j<n-1 && arr[j]==arr[j+1]) ++j;
+            
+            int next=arr[j+1];
+            
+            // check for max || check for min point 
+            if((curr>prev && curr>next) ||(curr<prev && curr<next)){
+                ans.push_back(curr);
+            }
+            
+            // if common element comes so i increased by that amt
+            i=j+1;
+        }
+        // this case handle for 2 element that are equal so we don't push in the array 
+        if(n>1 && ans.back()!=arr[n-1]) ans.push_back(arr[n-1]);
+        
+        return ans;
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-topic-wise-week2/problem/construct-an-array-from-its-pair-sum-array
+construct an array from its pair sum array 
+class Solution {
+  public:
+    // T.C-O(n) S.C-O(1) it neglible of the answer array 
+    vector<int> constructArr(vector<int>& arr) {
+        // code here
+        if(arr.size()==1){
+            return {1,arr[0]-1};
+        }
+        // it comes from n(n-1)/2=arr.size then apply -b+sqrt(b^2-4ac)/2a
+        int n=(1+sqrt(1+8*arr.size()))/2;
+        
+        vector<int> res(n);
+        res[0]=(arr[0]+arr[1]-arr[n-1])/2;
+        
+        for(int i=1;i<n;i++){
+            res[i]=arr[i-1]-res[0];
+        }
+        return res;
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-topic-wise-week2/problem/wave-array-1587115621
+Wave array 
+class Solution {
+  public:
+    // T.C-O(N) S.C-O(1)
+    void sortInWave(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        for(int i=0;i<n-1;i+=2){
+            swap(arr[i],arr[i+1]);
+        }
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-topic-wise-week2/problem/max-sum-in-the-configuration
+Max sum in the configuration
+class Solution {
+  public:
+//   T.C-O(N) S.C-O(1)
+    int maxSum(vector<int> &arr) {
+        // code here
+        int currSum=0,n=arr.size();
+        for(int i=0;i<n;i++){
+            currSum+=arr[i];
+        }
+        
+        int currVal=0;
+        for(int i=0;i<n;i++){
+            currVal+=i*arr[i];
+        }
+        
+        int res=currVal;
+        int nextVal=0;
+        for(int i=1;i<n;i++){
+            nextVal=currVal-(currSum-arr[i-1])+arr[i-1]*(n-1);
+            
+            currVal=nextVal;
+            res=max(res,nextVal);
+        }
+        return res;
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-topic-wise-week2/problem/maximum-product-subarray3604
+Maximum product subarray
+class Solution {
+  public:
+    // T.C-O(N) S.C-O(1)
+    int maxProduct(vector<int> &arr) {
+        // code here
+        int maxi=INT_MIN;
+        int n=arr.size();
+        int left=1,right=1;
+        for(int i=0;i<n;i++){
+            if(left==0) left=1;
+            if(right==0) right=1;
+            
+            left=left*arr[i];
+            
+            int idx=n-i-1;
+            right=right*arr[idx];
+            maxi=max({maxi,left,right});
+        }
+        return maxi;
+    }
+};
+
+https://www.geeksforgeeks.org/batch/skill-up-dsa/track/su-dsa-topic-wise-week2/problem/majority-element-1587115620
+Majority element
+class Solution {
+  public:
+    // T.C-O(N) S.C-O(1)
+    int majorityElement(vector<int>& arr) {
+        // code here
+        int n=arr.size();
+        int cnt=0;
+        int candidate=-1;
+        
+        // find a candidate
+        for(int num:arr){
+            if(cnt==0){
+                cnt=1;
+                candidate=num;
+            }
+            else if(num==candidate) cnt++;
+            else cnt--;
+        }
+        // frequency of candidate find out if it isbigger than arr.size()/2
+        cnt=0;
+        for(int num:arr){
+            if(num==candidate) cnt++;
+        }
+        
+        if(cnt>n/2){
+            return candidate;
+        }
+        else{
+            return -1;
+        }
+    }
+};
