@@ -192,3 +192,122 @@ int main() {
         cout << num << " ";
     return 0;
 }
+
+https://leetcode.com/problems/remove-k-digits/description/
+402: Remove K Digits
+class Solution {
+public:
+// T.C-O(N),S.C-O(N)
+    string removeKdigits(string num, int k) {
+        string ans="";
+        stack<char> st;
+        for(int i=0;i<num.size();i++){
+            char ch=num[i];
+            while(!st.empty() && k>0 && st.top()>num[i]){
+                k--;
+                st.pop();
+            }
+            st.push(ch);
+        }
+
+        while(k>0 && !st.empty()){
+            k--;
+            st.pop();
+        }
+
+        while(!st.empty()){
+            ans.push_back(st.top());
+            st.pop();
+        }
+        reverse(ans.begin(),ans.end());
+        int i=0;
+        while(i<ans.size() && ans[i]=='0') i++;
+        ans=ans.substr(i);
+
+        return ans.empty()?"0":ans;
+    }
+};
+
+https://leetcode.com/problems/asteroid-collision/description/
+735: Asteroid collision
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        stack<int> st;
+        for(int asteroid:asteroids){
+            bool alive=true;
+            while(!st.empty() && asteroid<0 && st.top()>0){
+                if(st.top()<-asteroid){
+                    st.pop();
+                    continue;
+                }
+                else if(st.top() == -asteroid){
+                    st.pop();
+                }
+                alive=false;
+                break;
+            }
+            if(alive) st.push(asteroid);
+        } 
+
+        vector<int> ans(st.size());
+    for(int i=st.size()-1;i>=0;i--){
+        ans[i]=st.top();
+        st.pop();
+    }
+    return ans;
+    }
+};
+
+https://leetcode.com/problems/sum-of-subarray-ranges/description/
+2104:Sum of subarray range 
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> prevgreater(n),nextgreater(n);
+        vector<int> prevsmaller(n),nextsmaller(n);
+
+        stack<int> st;
+
+        // prevsmaller
+        for(int i=0;i<n;i++){
+            while(!st.empty() && nums[st.top()]>=nums[i]) st.pop();
+            prevsmaller[i]=st.empty()?-1:st.top();
+            st.push(i);
+        }
+        while(!st.empty()) st.pop();
+
+        // nextsmaller
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && nums[st.top()]>nums[i]) st.pop();
+            nextsmaller[i]=st.empty()?n:st.top();
+            st.push(i);
+        }
+        while(!st.empty()) st.pop();
+
+        // prevgreater
+        for(int i=0;i<n;i++){
+            while(!st.empty() && nums[st.top()]<=nums[i]) st.pop();
+            prevgreater[i]=st.empty()?-1:st.top();
+            st.push(i);
+        }
+        while(!st.empty()) st.pop();
+
+        // nextgreater
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && nums[st.top()]<nums[i]) st.pop();
+            nextgreater[i]=st.empty()?n:st.top();
+            st.push(i);
+        }
+        while(!st.empty()) st.pop();
+
+        long long res=0;
+        for(int i=0;i<n;i++){
+            long long maxCount=(long long)(i-prevgreater[i])*(nextgreater[i]-i);
+            long long minCount=(long long)(i-prevsmaller[i])*(nextsmaller[i]-i);
+            res+=(maxCount-minCount)*nums[i];
+        }
+        return res;
+    }
+};

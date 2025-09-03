@@ -106,3 +106,75 @@ void infixToPostfix(string s) {
 	}
 	cout << result << endl;
 }
+
+
+https://leetcode.com/problems/sum-of-subarray-minimums/description/
+Question 3: 907. Sum of Subarray Minimums
+class Solution {
+public:
+// T.C-O(N),S.C-O(N)
+    int sumSubarrayMins(vector<int>& arr) {
+        int n=arr.size();
+        vector<int> left(n),right(n);
+        stack<pair<int,int>> s1,s2;
+        int cnt;
+        for(int i=0;i<n;i++){
+            cnt=1;
+            while(!s1.empty() && s1.top().first>arr[i]){
+                cnt=cnt+s1.top().second;
+                s1.pop();
+            }
+            s1.push({arr[i],cnt});
+            left[i]=cnt;
+        }
+
+        for(int i=n-1;i>=0;i--){
+            cnt=1;
+            while(!s2.empty() && s2.top().first>=arr[i]){
+                cnt=cnt+s2.top().second;
+                s2.pop();
+            }
+            s2.push({arr[i],cnt});
+            right[i]=cnt;
+        }
+
+        long long ans=0, mod=1e9+7;
+        for(int i=0;i<n;i++){
+            ans=(ans+(1LL* arr[i]*left[i]*right[i])%mod)%mod;
+        }
+        return ans;
+    }
+};
+
+https://www.geeksforgeeks.org/problems/the-celebrity-problem/1
+Celebrity problem
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+        // code here
+        stack<int> st;
+        int n=mat.size();
+        for(int i=0;i<n;i++){
+            st.push(i);
+        }
+        
+        while(st.size()>1){
+            int a=st.top();
+            st.pop();
+            
+            int b=st.top();
+            st.pop();
+            
+            if(mat[a][b]) st.push(b);
+            else st.push(a);
+        }
+        
+        int celebrity=st.top();
+        st.pop();
+        for(int i=0;i<n;i++){
+            if(i==celebrity) continue;
+            if(mat[celebrity][i] || !mat[i][celebrity]) return -1;
+        }
+        return celebrity;
+    }
+};
