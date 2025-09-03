@@ -304,3 +304,27 @@ public:
         return head;
     }
 };
+
+https://leetcode.com/problems/linked-list-random-node/description/
+Linked List Random node 
+class Solution {
+public:
+// T.C - O(N) S.C-O(1)
+// using the reservoir algorithms in which 0 to k element are equally probability to each other 
+// like if we have two number or items so there is half probability for both 
+ListNode* head=NULL;
+    Solution(ListNode* head) {
+        this->head=head;
+    }
+    
+    int getRandom() {
+        int ans=0,i=1;
+        ListNode* temp=this->head;
+        while(temp){
+            if(rand()%i==0) ans=temp->val;
+            i++;
+            temp=temp->next; 
+        }
+        return ans;
+    }
+};
