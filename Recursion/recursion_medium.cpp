@@ -235,3 +235,109 @@ class Solution {
         return ans;
     }
 };
+
+https://leetcode.com/problems/combination-sum/description/
+39:Combination Sum
+
+class Solution {
+public:
+
+    void combination(vector<int>& candidates,int target,int i,vector<vector<int>>& res,vector<int> ans){
+        if(target==0){
+            res.push_back(ans);
+            return;
+        }
+        if(i>=candidates.size() || target<0) return;
+
+        ans.push_back(candidates[i]);
+        combination(candidates,target-candidates[i],i,res,ans);
+        ans.pop_back();
+        combination(candidates,target,i+1,res,ans);
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> ans;
+        combination(candidates,target,0,res,ans);
+        return res;
+    }
+};
+
+https://leetcode.com/problems/combination-sum-ii/description/
+40:Combination Sum II
+class Solution {
+public:
+
+    void combination(vector<int>& candidates,int target,int start,vector<vector<int>>& res,vector<int> current){
+        if(target==0){
+            res.push_back(current);
+            return;
+        }
+        
+        for(int i=start;i<candidates.size();i++){
+            if(i>start && candidates[i]==candidates[i-1]) continue;
+
+            if(candidates[i]>target) break;
+            current.push_back(candidates[i]);
+            combination(candidates,target-candidates[i],i+1,res,current);
+            current.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());
+        vector<vector<int>> res;
+        vector<int> ans;
+        combination(candidates,target,0,res,ans);
+        return res;
+    }
+};
+
+https://leetcode.com/problems/combination-sum-iii/description/
+216:Combination sum III
+class Solution {
+public:
+
+    void combinationSum(int k,int n,int i,vector<vector<int>>& ans,vector<int> curr){
+        if(k==0 && n==0){
+            ans.push_back(curr);
+            return;
+        }
+        if(k==0 || n<0 || i>9) return;
+
+        curr.push_back(i);
+        combinationSum(k-1,n-i,i+1,ans,curr);
+
+        curr.pop_back();
+        combinationSum(k,n,i+1,ans,curr);
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> curr;
+        combinationSum(k,n,1,ans,curr);
+        return ans;
+    }
+};
+
+https://leetcode.com/problems/subsets-ii/description/
+90: Subsets II
+class Solution {
+public:
+
+    void subsetDup(vector<int>& nums,int start,vector<vector<int>>& ans,vector<int> curr){
+        ans.push_back(curr);
+        for(int i=start;i<nums.size();i++){
+            if(i>start && nums[i]==nums[i-1]) continue;
+            curr.push_back(nums[i]);
+            subsetDup(nums,i+1,ans,curr);
+            curr.pop_back();
+        }
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> ans;
+        vector<int> curr;
+        subsetDup(nums,0,ans,curr);
+        return ans;
+    }
+};
